@@ -1,0 +1,11 @@
+include: package:pedantic/analysis_options.yaml
+analyzer:
+  errors:
+    todo: ignore
+linter:
+  rules:
+    always_declare_return_types: false
+    avoid_void_async: true
+    unawaited_futures: false
+    prefer_single_quotes: false
+    unnecessary_this: false
