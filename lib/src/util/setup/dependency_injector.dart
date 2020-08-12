@@ -64,7 +64,9 @@ class DependencyInjector {
 
     //Repos
     GetIt.instance.registerSingleton<AccountRepository>(
-      FirebaseAccountRepository(),
+      FirebaseAccountRepository(
+        firebaseAuth: FirebaseAuth.instance,
+      ),
     );
     GetIt.instance.registerSingleton<AuthRepository>(
       AuthApiRepository(httpClient: getIt()),
