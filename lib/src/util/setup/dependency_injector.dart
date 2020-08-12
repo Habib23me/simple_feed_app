@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -69,7 +70,10 @@ class DependencyInjector {
       AuthApiRepository(httpClient: getIt()),
     );
     GetIt.instance.registerSingleton<PhoneSignInRepository>(
-      FirebasePhoneSignInRepository(logHandler: getIt()),
+      FirebasePhoneSignInRepository(
+        logHandler: getIt(),
+        firebaseAuth: FirebaseAuth.instance,
+      ),
     );
     GetIt.instance.registerSingleton<FeedRepository>(
       FeedApiRepository(httpClient: getIt()),

@@ -7,6 +7,7 @@ import 'package:simple_feed/src/data/auth/repository/account/account_repository.
 import 'package:simple_feed/src/data/auth/repository/auth/auth_repository.dart';
 
 import 'package:simple_feed/src/data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import 'package:simple_feed/src/data/auth/repository/sign_in/sign_in_status.dart';
 
 enum AuthState {
   unknown,
@@ -36,7 +37,7 @@ class AuthenticationBloc extends Cubit<AuthState> {
     checkIfSignedIn();
   }
   Future<void> onPhoneSignInStatusUpdate(PhoneSignInStatus status) async {
-    if (status == PhoneSignInStatus.success) {
+    if (status is PhoneSignInSuccess) {
       await _authRepository.signIn(
         VerifyAccountPayload(
           phoneNumber: _phoneSignInRepository.phoneNumber,
@@ -54,12 +55,6 @@ class AuthenticationBloc extends Cubit<AuthState> {
       emit(AuthState.unAuthenticated);
     }
   }
-
-  Future<void> sendCodeToPhone(String phone) =>
-      _phoneSignInRepository.sendCodeToPhone(phone);
-
-  Future<void> verifyCode(String code) =>
-      _phoneSignInRepository.verifyCode(code);
 
   Future<void> signOut() async {
     await _authRepository.signOut();

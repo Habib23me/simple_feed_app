@@ -8,6 +8,7 @@ import 'package:simple_feed/src/data/auth/repository/account/mock_account_reposi
 import 'package:simple_feed/src/data/auth/repository/auth/mock_auth_repository.dart';
 import 'package:simple_feed/src/data/auth/repository/sign_in/mock_phone_sign_in_repository.dart';
 import 'package:simple_feed/src/data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import 'package:simple_feed/src/data/auth/repository/sign_in/sign_in_status.dart';
 
 import '../../../setup/dependency_injector.dart';
 
@@ -23,9 +24,7 @@ void main() {
     var accountRepo = MockAccountRepository();
     var authRepo = MockAuthRepository();
 
-    var signInStatusStream = BehaviorSubject<PhoneSignInStatus>.seeded(
-      PhoneSignInStatus.unknown,
-    );
+    var signInStatusStream = BehaviorSubject<PhoneSignInStatus>();
 
     when(phoneSignInRepo.signInStatusStream).thenAnswer(
       (_) => signInStatusStream,
@@ -43,11 +42,11 @@ void main() {
       bloc,
       emitsInOrder([AuthState.unAuthenticated, AuthState.authenticated]),
     );
-    await bloc.sendCodeToPhone(correctPhone);
-    await bloc.verifyCode(correctCode);
+    await phoneSignInRepo.sendCodeToPhone(correctPhone);
+    await phoneSignInRepo.verifyCode(correctCode);
     verify(phoneSignInRepo.sendCodeToPhone(correctPhone));
     verify(phoneSignInRepo.verifyCode(correctCode));
-    signInStatusStream.add(PhoneSignInStatus.success);
+    signInStatusStream.add(PhoneSignInSuccess());
   });
 
   test("calling sign out emits unauthenticated state", () async {
@@ -55,9 +54,7 @@ void main() {
     var accountRepo = MockAccountRepository();
     var authRepo = MockAuthRepository();
 
-    var signInStatusStream = BehaviorSubject<PhoneSignInStatus>.seeded(
-      PhoneSignInStatus.unknown,
-    );
+    var signInStatusStream = BehaviorSubject<PhoneSignInStatus>();
 
     when(phoneSignInRepo.signInStatusStream).thenAnswer(
       (_) => signInStatusStream,

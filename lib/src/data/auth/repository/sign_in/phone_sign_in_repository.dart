@@ -1,10 +1,4 @@
-enum PhoneSignInStatus {
-  unknown,
-  success,
-  loading,
-  codeSent,
-  failed,
-}
+import 'sign_in_status.dart';
 
 abstract class PhoneSignInRepository {
   String phoneNumber;

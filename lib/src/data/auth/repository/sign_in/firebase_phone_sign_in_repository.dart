@@ -5,30 +5,35 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'package:simple_feed/src/data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import 'package:simple_feed/src/data/auth/repository/sign_in/sign_in_status.dart';
 import 'package:simple_feed/src/util/log_handler/log_handler.dart';
 
 class FirebasePhoneSignInRepository implements PhoneSignInRepository {
   final LogHandler _logHandler;
+  final FirebaseAuth _firebaseAuth;
   String verificationId;
   @override
   String phoneNumber;
 
-  FirebasePhoneSignInRepository({@required LogHandler logHandler})
-      : assert(logHandler != null),
+  FirebasePhoneSignInRepository({
+    @required LogHandler logHandler,
+    @required FirebaseAuth firebaseAuth,
+  })  : assert(logHandler != null),
+        assert(firebaseAuth != null),
+        _firebaseAuth = firebaseAuth,
         _logHandler = logHandler;
-  FirebaseAuth get _firebaseAuth => FirebaseAuth.instance;
 
   @override
-  BehaviorSubject<PhoneSignInStatus> get signInStatusStream =>
-      BehaviorSubject<PhoneSignInStatus>.seeded(PhoneSignInStatus.unknown);
+  BehaviorSubject<PhoneSignInStatus> signInStatusStream =
+      BehaviorSubject<PhoneSignInStatus>();
 
   @override
   Future<void> sendCodeToPhone(String phone) {
     phoneNumber = phone;
-    signInStatusStream.add(PhoneSignInStatus.loading);
+    signInStatusStream.add(PhoneSignInSendingCode());
     return _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phone,
-      timeout: Duration(seconds: 5),
+      timeout: Duration(minutes: 1),
       verificationCompleted: _onVerificationCompleted,
       verificationFailed: _onVerificationFailed,
       codeSent: _onVerificationCodeSent,
@@ -38,7 +43,7 @@ class FirebasePhoneSignInRepository implements PhoneSignInRepository {
 
   @override
   Future<void> verifyCode(String code) {
-    signInStatusStream.add(PhoneSignInStatus.loading);
+    signInStatusStream.add(PhoneSignInAttemptingVerification());
     var credential = PhoneAuthProvider.getCredential(
       verificationId: verificationId,
       smsCode: code,
@@ -49,22 +54,23 @@ class FirebasePhoneSignInRepository implements PhoneSignInRepository {
   Future<void> _onVerificationCompleted(AuthCredential authCredential) async {
     try {
       await _firebaseAuth.signInWithCredential(authCredential);
-      signInStatusStream.add(PhoneSignInStatus.success);
+      signInStatusStream.add(PhoneSignInSuccess());
     } catch (e, stacktrace) {
-      signInStatusStream.add(PhoneSignInStatus.failed);
+      signInStatusStream.add(PhoneSignInFailed("$e"));
       _logHandler.error("$e", stackTrace: stacktrace);
     }
   }
 
   void _onVerificationFailed(AuthException error) {
-    signInStatusStream.add(PhoneSignInStatus.failed);
-    _logHandler.error("[ERROR CODE: ${error.code}] ${error.message}");
+    var errorMessage = "[ERROR CODE: ${error.code}] ${error.message}";
+    signInStatusStream.add(PhoneSignInFailed(errorMessage));
+    _logHandler.error(errorMessage);
   }
 
   void _onVerificationCodeSent(String verificationId,
       [int forceResendingToken]) {
     this.verificationId = verificationId;
-    signInStatusStream.add(PhoneSignInStatus.codeSent);
+    signInStatusStream.add(PhoneSignInCodeSent());
   }
 
   void _phoneCodeRetrievalTimeOut(String verificationId) =>
