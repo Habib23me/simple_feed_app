@@ -1,6 +1,9 @@
 part of '../verification_screen.dart';
 
 class _SubmitButton extends StatelessWidget {
+  final VoidCallback onSubmit;
+
+  const _SubmitButton({Key key, this.onSubmit}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
@@ -11,7 +14,7 @@ class _SubmitButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: onSubmit,
         color: Theme.of(context).primaryColor,
         child: Text(
           "Verify",

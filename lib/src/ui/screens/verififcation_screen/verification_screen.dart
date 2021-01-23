@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simple_feed/src/ui/widgets/hide_keyboard.dart';
 import 'package:simple_feed/src/util/setup/app_constants.dart';
+
+import '../../../data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import '../../../data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import '../../../data/auth/repository/sign_in/phone_sign_in_repository.dart';
+import '../../../util/setup/dependency_injector.dart';
 part 'widgets/header_icon.dart';
 part 'widgets/header.dart';
 part 'widgets/header_subtitle.dart';

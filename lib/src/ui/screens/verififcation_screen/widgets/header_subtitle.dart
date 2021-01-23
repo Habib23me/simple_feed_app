@@ -1,7 +1,6 @@
 part of '../verification_screen.dart';
 
 class _HeaderSubTitle extends StatelessWidget {
-  String get number => "+251941232484";
   @override
   Widget build(BuildContext context) {
     return RichText(
@@ -13,13 +12,6 @@ class _HeaderSubTitle extends StatelessWidget {
                 fontSize: 16.0,
               ),
         ),
-        TextSpan(
-          text: "$number",
-          style: Theme.of(context).textTheme.headline5.copyWith(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-        )
       ]),
     );
   }
