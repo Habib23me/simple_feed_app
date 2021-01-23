@@ -61,7 +61,7 @@ class FirebasePhoneSignInRepository implements PhoneSignInRepository {
     }
   }
 
-  void _onVerificationFailed(AuthException error) {
+  void _onVerificationFailed(FirebaseAuthException error) {
     var errorMessage = "[ERROR CODE: ${error.code}] ${error.message}";
     signInStatusStream.add(PhoneSignInFailed(errorMessage));
     _logHandler.error(errorMessage);

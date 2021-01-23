@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>178163929654-hj07rvr1t5f5vaejdms58mdch784res5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.178163929654-hj07rvr1t5f5vaejdms58mdch784res5</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>178163929654-1r5vjikip65r45mjtp84rnog190hlc9j.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDYCFkd8mqqLkJj_KueQP2tWIYtRualBCs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>178163929654</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.simpleFeed</string>
+	<key>PROJECT_ID</key>
+	<string>simple-feed-704cd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>simple-feed-704cd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:178163929654:ios:59be21e3019af6fde9be97</string>
+	<key>DATABASE_URL</key>
+	<string>https://simple-feed-704cd.firebaseio.com</string>
+</dict>
+</plist>

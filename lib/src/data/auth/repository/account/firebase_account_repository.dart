@@ -19,17 +19,17 @@ class FirebaseAccountRepository implements AccountRepository {
   @override
   BehaviorSubject<AccountData> accountStream;
 
-  Future<AccountData> mapAuthState(FirebaseUser user) async {
+  Future<AccountData> mapAuthState(User user) async {
     if (user == null) {
       return null;
     }
     var idToken = await user.getIdToken();
-    return AccountData(token: idToken.token, uid: user.uid);
+    return AccountData(token: idToken, uid: user.uid);
   }
 
   @override
   Future<void> refreshAccountStream() async {
-    var user = await _firebaseAuth.currentUser();
+    var user = _firebaseAuth.currentUser;
     var account = await mapAuthState(user);
     accountStream.add(account);
   }
@@ -38,6 +38,5 @@ class FirebaseAccountRepository implements AccountRepository {
   Future<void> removeAccount() => _firebaseAuth.signOut();
 
   @override
-  Future<bool> get hasAccount async =>
-      (await _firebaseAuth.currentUser()) != null;
+  Future<bool> get hasAccount async => (_firebaseAuth.currentUser) != null;
 }

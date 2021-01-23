@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_feed/src/ui/widgets/post_tile/post_tile.dart';
 
+import '../../../data/auth/bloc/auth_bloc.dart';
+import '../../../util/setup/dependency_injector.dart';
+
 part 'widgets/feed_list.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -13,7 +16,9 @@ class FeedScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.exit_to_app),
-            onPressed: () {},
+            onPressed: () {
+              getIt<AuthenticationBloc>().signOut();
+            },
           ),
         ],
       ),

@@ -23,7 +23,7 @@ dependencies:
   mockito: ^4.1.1
   path_provider: ^1.6.11
   rxdart: ^0.24.1
-  firebase_auth: ^0.16.1
+  firebase_auth: ^0.18.3+1
   get_it: ^4.0.4
   adaptive_theme: ^1.0.0
   get: ^3.4.4
@@ -75,4 +75,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
